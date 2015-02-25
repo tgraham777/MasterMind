@@ -5,6 +5,9 @@ class Mastermind
     secret = "bgry"
     if input == "q"
       Response.new(:message => "Thanks for playing!", :status => :won)
+    elsif input == "c"
+      puts "The combination was #{secret}"
+      Response.new(:message => "Thanks for playing!", :status => :won)
     else
       if input.length == 4
         if input == secret
