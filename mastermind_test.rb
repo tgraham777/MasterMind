@@ -18,7 +18,7 @@ class MastermindTest < Minitest::Test
     mm = Mastermind.new
     input = "Q"
     result = mm.execute(input.downcase)
-    assert result.message.downcase.include?("thanks")
+    assert_equal result.message, "Thanks for playing!"
   end
 
   def test_it_tests_length
@@ -36,11 +36,18 @@ class MastermindTest < Minitest::Test
   end
 
   def test_response_to_numeric_input
-      mm = Mastermind.new
-      input = "4347"
-      input.tr!('^A-Za-z', '')
-      result = mm.execute(input.downcase)
-      assert result.message.downcase.include?("error")
+    mm = Mastermind.new
+    input = "4347"
+    input.tr!('^A-Za-z', '')
+    result = mm.execute(input.downcase)
+    assert result.message.downcase.include?("error")
+  end
+
+  def test_cheat_function
+    mm = Mastermind.new
+    input = "C"
+    result = mm.execute(input.downcase)
+    assert_equal result.message, "Come back and try again!"
   end
 
 end
