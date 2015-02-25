@@ -20,8 +20,9 @@ end
 
 if input1 == "p"
   puts "
-I have generated a beginner sequence with four random elements made up of: (r)ed,
-(g)reen, (b)lue, and (y)ellow. You can use (q)uit at any time to end the game.
+I have generated a beginner sequence with four random elements made up of
+(r)ed, (g)reen, (b)lue, and (y)ellow. At any time during the game you can use
+(q)uit to end the game or (c)heat to see the hidden sequence and exit.
 
 What's your guess?"
 
