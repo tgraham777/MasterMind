@@ -1,1 +1,1 @@
-# MasterMind
+# master_mind
