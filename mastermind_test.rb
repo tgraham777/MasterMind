@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative 'mastermind'
+# require_relative 'runner'
 
 class MastermindTest < Minitest::Test
 
@@ -40,7 +41,7 @@ class MastermindTest < Minitest::Test
     mm.make_secret
     input = "YRGB"
     result = mm.execute(input.downcase)
-    assert result.message.downcase.include?("again")
+    assert result.message.include?("Guess again")
   end
 
   def test_response_to_numeric_input
@@ -73,6 +74,10 @@ class MastermindTest < Minitest::Test
     input = "rgby"
     result = mm.execute(input.downcase)
     assert result.message.include?("2 in the correct positions")
+
+    input = "rbgy"
+    result = mm.execute(input.downcase)
+    assert result.message.include?("1 in the correct positions")
   end
 
   def test_guess_count
@@ -111,11 +116,10 @@ class MastermindTest < Minitest::Test
 
   def test_timer
     mm = Mastermind.new
-    mm.make_secret
     timer_start = Time.now
     timer_end = timer_start + 30
     result = mm.timer(timer_start, timer_end)
-    assert_equal "Your total time was 0 minutes and 30 seconds.", result
+    assert result.include?("Your total time")
   end
 
   def test_randomizer
