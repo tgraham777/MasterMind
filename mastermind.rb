@@ -11,6 +11,7 @@ class Mastermind
   def make_secret
     start = "bgry"
     @secret = start.split("").shuffle.join
+    # puts "The secret is #{@secret}"
   end
 
   def timer(timer_start, timer_end)
