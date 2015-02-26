@@ -1,7 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require_relative 'mastermind'
-# require_relative 'runner'
 
 class MastermindTest < Minitest::Test
 
