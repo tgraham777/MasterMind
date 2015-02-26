@@ -11,8 +11,23 @@ attr_reader :guess_count, :secret #this is for testing purposes only
   end
 
   def make_secret
+    secret_array = []
     start = "bgry"
-    @secret = start.split("").shuffle.join
+
+    secret1 = start.split("").shuffle
+    secret_array << secret1[0]
+
+    secret2 = secret1.shuffle
+    secret_array << secret2[0]
+
+    secret3 = secret2.shuffle
+    secret_array << secret3[0]
+
+    secret4 = secret3.shuffle
+    secret_array << secret4[0]
+
+    @secret = secret_array.join
+
     puts "The secret is #{@secret}"
   end
 
@@ -52,7 +67,8 @@ You have made #{@guess_count} guesses. Guess again!", :status => :continue)
 
   def color_counter
     @color_count = 0
-    @secret.split("").map do |x|
+    secret = @secret.split("").uniq
+    secret.map do |x|
       if @input.include?(x)
         @color_count += 1
       end

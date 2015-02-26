@@ -70,7 +70,6 @@ class MastermindTest < Minitest::Test
 
   def test_color_count
     mm = Mastermind.new
-    mm.make_secret
     input = "ggry"
     result = mm.execute(input)
     assert result.message.include?("3 of the correct elements")
