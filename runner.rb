@@ -1,7 +1,10 @@
-require_relative 'mastermind'
-require 'colorize'
+require_relative 'menu'
 
 class Runner
+
+  menu = Menu.new
+
+  menu.start
 
 def start
   puts " __  __    __    ___  ____  ____  ____  __  __  ____  _  _  ____".red
@@ -12,9 +15,23 @@ def start
 
   puts "Welcome to Mastermind!
 Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
+input1 = gets.chomp.downcase
+first_input(input1)
+end
 
-  input1 = gets.chomp.downcase
+def first_input(input1)
   if input1 == "i"
+    instructions
+  elsif input1 == "p"
+    play
+  elsif input1 == "q"
+    quit
+  else
+    error
+  end
+end
+
+def instructions
     puts "
 Instructions:".green.bold
     puts "Mastermind generates a random combination of four colors: (r)ed, (b)lue,
@@ -26,11 +43,11 @@ to see how fast you can guess the right combination of colors. Good luck!"
 *Note: at any time during the game you can use (q)uit to end the game
 or (c)heat to see the hidden sequence and exit.
 ".yellow
-  input1 = "p"
-  end
+  play
+end
 
-  if input1 == "p"
-    timer_start = Time.now
+def play
+    @timer_start = Time.now
     puts "
 I have generated a beginner sequence with four random elements made up of
 (r)ed, (g)reen, (b)lue, and (y)ellow. At any time during the game you can use
@@ -38,6 +55,10 @@ I have generated a beginner sequence with four random elements made up of
     puts "
 What's your guess?"
 
+take_input
+end
+
+def take_input
     mastermind = Mastermind.new
     mastermind.make_secret
     response = nil
@@ -49,29 +70,41 @@ What's your guess?"
       response = mastermind.execute(input)
       puts response.message
     end
+  ending
+end
+
+def ending
+    mastermind = Mastermind.new
     timer_end = Time.now
-    time = mastermind.timer(timer_start, timer_end)
+    time = mastermind.timer(@timer_start, timer_end)
     puts time
     puts "Do you want to (p)lay again or (q)uit?"
     input2 = gets.chomp.downcase
+    looper(input2)
+end
+
+def looper(input2)
     if input2 == "p"
       start
     elsif input2 == "q"
-      puts "Goodbye!"
+      quit
     else
       puts "Do you want to (p)lay again or (q)uit?"
+      input3 = gets.chomp.downcase
+      looper(input3)
     end
-  end
+end
 
-  if input1 == "q"
-    puts "Goodbye!"
-  end
+def quit
+  puts "
+Goodbye!".red
+end
 
-  if input1 != "i" && input1 != "p" && input1 != "q"
-    puts "Error: please enter the letter p, i, or q"
-    start
-  end
-  end
+def error
+  puts "Error: please enter the letter p, i, or q"
+  start
+end
+
 end
 
   runner = Runner.new
