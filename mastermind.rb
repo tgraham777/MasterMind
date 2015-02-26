@@ -13,7 +13,7 @@ attr_reader :guess_count, :secret #this is for testing purposes only
   def make_secret
     start = "bgry"
     @secret = start.split("").shuffle.join
-    # puts "The secret is #{@secret}"
+    puts "The secret is #{@secret}"
   end
 
   def execute(input)
@@ -40,7 +40,8 @@ attr_reader :guess_count, :secret #this is for testing purposes only
   def check_winner
     @guess_count += 1
     if @input == @secret
-      Response.new(:message => "Congratulations! You guessed the secret combination #{@secret} in #{@guess_count} guesses!".green, :status => :won)
+      Response.new(:message => "
+Congratulations! You guessed the secret combination #{@secret} in #{@guess_count} guesses!".green, :status => :won)
     else
       color_counter
       position_counter
