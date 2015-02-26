@@ -1,6 +1,6 @@
 # Master Mind
 
-## Instructions
+### Instructions
 
 Mastermind generates a random combination of four colors: (r)ed, (b)lue,
 (g)reen, and (y)ellow. You guess a random string of four letters representing
