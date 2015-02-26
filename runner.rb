@@ -1,4 +1,11 @@
 require_relative 'mastermind'
+require 'colorize'
+
+puts " __  __    __    ___  ____  ____  ____  __  __  ____  _  _  ____".red
+puts "(  \\/  )  /__\\  / __)(_  _)( ___)(  _ \\(  \\/  )(_  _)( \\( )(  _ \\".yellow
+puts " )    (  /(__)\\ \\__ \\  )(   )__)  )   / )    (  _)(_  )  (  )(_) )".green
+puts "(_/\\/\\_)(__)(__)(___/ (__) (____)(_)\\_)(_/\\/\\_)(____)(_)\\_)(____/
+".blue
 
 puts "Welcome to Mastermind!
 Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
@@ -19,6 +26,7 @@ input1 = "p"
 end
 
 if input1 == "p"
+  timer_start = Time.now
   puts "
 I have generated a beginner sequence with four random elements made up of
 (r)ed, (g)reen, (b)lue, and (y)ellow. At any time during the game you can use
@@ -27,6 +35,7 @@ I have generated a beginner sequence with four random elements made up of
 What's your guess?"
 
   mastermind = Mastermind.new
+  mastermind.make_secret
   response = nil
 
   until response && response.status == :won
@@ -36,6 +45,9 @@ What's your guess?"
     response = mastermind.execute(input)
     puts response.message
   end
+  timer_end = Time.now
+  time = mastermind.timer(timer_start, timer_end)
+  puts time
   puts "Goodbye!"
 end
 
