@@ -16,18 +16,14 @@ attr_reader :guess_count, :secret #this is for testing purposes only
 
     secret1 = start.split("").shuffle
     secret_array << secret1[0]
-
     secret2 = secret1.shuffle
     secret_array << secret2[0]
-
     secret3 = secret2.shuffle
     secret_array << secret3[0]
-
     secret4 = secret3.shuffle
     secret_array << secret4[0]
 
     @secret = secret_array.join
-
     puts "The secret is #{@secret}"
   end
 
