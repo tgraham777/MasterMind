@@ -12,8 +12,7 @@ class Response
   end
 
   def quit_message
-    puts "\nThanks for playing! You made #{@guess_counts} guesses.".red
-    puts "Goobye!".green
+    puts "\nThanks for playing! You made #{@guess_counts} guesses.\nGoodbye!".green
   end
 
   def cheat_message

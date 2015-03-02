@@ -3,12 +3,12 @@ require_relative 'printer'
 
 class Mastermind
 
-attr_reader :input, :secret  #this is for testing purposes only
+attr_reader :status, :secret, :input, :guess_count, :color_count, :position_count #note: 'count' variables are here for testing only
 
   def initialize
     @status = "continue"
     @secret = "bgry"
-    @input = nil
+    @input = "bgry"
     @guess_count = 0
     @color_count = 0
     @position_count = 0
@@ -22,7 +22,7 @@ attr_reader :input, :secret  #this is for testing purposes only
       array1 << item
     end
     @secret = array1.join
-    puts "The secret is #{@secret}"
+    # puts "The secret is #{@secret}"
   end
 
   def running_loop
@@ -37,7 +37,7 @@ attr_reader :input, :secret  #this is for testing purposes only
         execute(input)
       end
     else
-      puts "Goodbye!"
+      "Goodbye!"
     end
   end
 
@@ -45,8 +45,8 @@ attr_reader :input, :secret  #this is for testing purposes only
     @input = input
     if input == "q"
       response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
-      response.quit_message
       @status = "won"
+      response.quit_message
     elsif input == "c"
       response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
       response.cheat_message
