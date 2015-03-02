@@ -1,10 +1,9 @@
 require_relative 'response'
 require_relative 'printer'
-# require 'colorize'
 
 class Mastermind
 
-# attr_reader :input, :secret #this is for testing purposes only
+attr_reader :input, :secret  #this is for testing purposes only
 
   def initialize
     @status = "continue"
