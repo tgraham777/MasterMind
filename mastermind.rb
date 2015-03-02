@@ -1,63 +1,88 @@
 require_relative 'response'
-require 'colorize'
+require_relative 'printer'
+# require 'colorize'
 
 class Mastermind
 
-attr_reader :guess_count, :secret #this is for testing purposes only
+# attr_reader :input, :secret #this is for testing purposes only
 
   def initialize
-    @guess_count = 0
+    @status = "continue"
     @secret = "bgry"
+    @input = nil
+    @guess_count = 0
+    @color_count = 0
+    @position_count = 0
   end
 
   def make_secret
-    secret_array = []
     start = "bgry"
-
-    secret1 = start.split("").shuffle
-    secret_array << secret1[0]
-    secret2 = secret1.shuffle
-    secret_array << secret2[0]
-    secret3 = secret2.shuffle
-    secret_array << secret3[0]
-    secret4 = secret3.shuffle
-    secret_array << secret4[0]
-
-    @secret = secret_array.join
+    array1 = []
+    start.length.times do
+      item = start.split("").sample
+      array1 << item
+    end
+    @secret = array1.join
     puts "The secret is #{@secret}"
+  end
+
+  def running_loop
+    make_secret
+    @timer_start = Time.now
+    @printer = Printer.new
+    if @printer.status != "quit"
+      # response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      until @status == "won"
+        print "> "
+        input = gets.chomp.downcase
+        input.tr!('^A-Za-z', '')
+        execute(input)
+      end
+    else
+      puts "Goodbye!"
+    end
   end
 
   def execute(input)
     @input = input
     if input == "q"
-      Response.new(:message => "Thanks for playing! You made #{@guess_count} guesses.".red, :status => :won)
+      response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      response.quit_message
+      @status = "won"
     elsif input == "c"
-      Response.new(:message => "The combination was #{@secret}. You made #{@guess_count} guesses. Come back and try again!".blue, :status => :won)
+      response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      response.cheat_message
+      @status = "won"
+      timer
     else
-      input_check
+      length_check
     end
   end
 
-  def input_check
+  def length_check
     if @input.length > 4
-      Response.new(:message => "Error - input is too long or includes unacceptable characters. Please enter 4 letters (r, g, b, or y) without spaces".green)
+      response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      response.error_message_long
     elsif @input.length < 4
-      Response.new(:message => "Error - input is too short or includes unacceptable characters. Please enter 4 letters (r, g, b, or y) without spaces".green)
+      response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      response.error_message_short
     else
-      check_winner
+      calculator
     end
   end
 
-  def check_winner
+  def calculator
     @guess_count += 1
     if @input == @secret
-      Response.new(:message => "
-Congratulations! You guessed the secret combination #{@secret} in #{@guess_count} guesses!".green, :status => :won)
+      response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      response.win_message
+      @status = "won"
+      timer
     else
       color_counter
       position_counter
-      Response.new(:message => "#{@input} has #{@color_count} of the correct elements with #{@position_count} in the correct positions.
-You have made #{@guess_count} guesses. Guess again!", :status => :continue)
+      response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
+      response.continue_message
     end
   end
 
@@ -80,11 +105,32 @@ You have made #{@guess_count} guesses. Guess again!", :status => :continue)
     end
   end
 
-  def timer(timer_start, timer_end)
-    time1 = (timer_end - timer_start).to_i
+  def timer
+    timer_end = Time.now
+    time1 = (timer_end - @timer_start).to_i
     minutes = time1 / 60
     seconds = time1 % 60
-    "Your total time was #{minutes} minutes and #{seconds} seconds.".green
+    puts "Your total time was #{minutes} minutes and #{seconds} seconds.".green
+    play_again
+  end
+
+  def play_again
+    puts "Want to (p)lay again or (q)uit?"
+    input = gets.chomp.downcase
+    if input == "p"
+      @printer.start_menu
+      input = gets.chomp.downcase
+      @printer.first_selection(input)
+      if @printer.status == "continue"
+        @status = "continue"
+        @guess_count = 0
+        @color_count = 0
+        @position_count = 0
+        running_loop
+      end
+    else
+      puts "\nGoodbye!".green
+    end
   end
 
 end
