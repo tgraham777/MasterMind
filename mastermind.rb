@@ -30,7 +30,6 @@ attr_reader :input, :secret  #this is for testing purposes only
     @timer_start = Time.now
     @printer = Printer.new
     if @printer.status != "quit"
-      # response = Response.new(@secret, @input, @guess_count, @color_count, @position_count)
       until @status == "won"
         print "> "
         input = gets.chomp.downcase
